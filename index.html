@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ondulatória, Isolamento Acústico e Saúde Auditiva | Tecnociência 2026</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fontes Google: Inter & JetBrains Mono para fórmulas e dados técnicos -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Ícones FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        slate: {
+                            850: '#151e32',
+                            900: '#0f172a',
+                            950: '#080d1a',
+                        },
+                        acoustic: {
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Estilos customizados para barras de rolagem, sliders e efeitos de vidro */
+        body {
+            background-color: #080d1a;
+            color: #f1f5f9;
+            overflow-x: hidden;
+        }
+        .glass-card {
+            background: rgba(15, 23, 42, 0.72);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(56, 189, 248, 0.15);
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+        .glass-card:hover {
+            border-color: rgba(56, 189, 248, 0.4);
+            box-shadow: 0 10px 30px -10px rgba(14, 165, 233, 0.2);
+        }
+        /* Custom Range Sliders */
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+            cursor: pointer;
+        }
+        input[type="range"]::-webkit-slider-runnable-track {
+            height: 8px;
+            border-radius: 999px;
+            background: #1e293b;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            margin-top: -6px;
+            background-color: #38bdf8;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.7);
+            transition: transform 0.15s ease;
+        }
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+        }
+        /* Animação de revelação suave */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-sky-500 selection:text-white">
+
+    <!-- Navegação Fixa -->
+    <header class="fixed top-0 inset-x-0 z-50 bg-slate-950/85 backdrop-blur-md border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo / Título Curto -->
+                <a href="#inicio" class="flex items-center gap-2.5 group">
+                    <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-sky-400 to-blue-600 flex items-center justify-center text-slate-950 font-bold shadow-lg shadow-sky-500/20 group-hover:scale-105 transition">
+                        <i class="fa-solid fa-wave-square"></i>
+                    </div>
+                    <div>
+                        <span class="font-bold text-slate-100 tracking-tight text-sm sm:text-base block leading-none">Acústica & Saúde</span>
+                        <span class="text-[11px] font-mono text-sky-400">2º Ano D • 2026</span>
+                    </div>
+                </a>
+
+                <!-- Links Desktop -->
+                <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
+                    <a href="#ondulatoria" class="hover:text-sky-400 transition">1. Ondulatória</a>
+                    <a href="#arquitetonica" class="hover:text-sky-400 transition">2. Acústica Arquitetônica</a>
+                    <a href="#saude-oms" class="hover:text-sky-400 transition">3. Saúde & OMS</a>
+                    <a href="#tecnologia" class="hover:text-sky-400 transition">4. Tecnologias</a>
+                    <a href="#conclusao" class="hover:text-sky-400 transition">5. Conclusão</a>
+                </nav>
+
+                <!-- Botão Menu Mobile -->
+                <button id="mobile-menu-btn" aria-label="Abrir Menu" class="md:hidden p-2.5 rounded-lg text-slate-300 hover:bg-slate-800 focus:outline-none">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Menu Mobile Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-slate-900 border-b border-slate-800 px-4 pt-2 pb-4 space-y-2">
+            <a href="#ondulatoria" class="block px-3 py-2.5 rounded-lg text-slate-200 hover:bg-slate-800 hover:text-sky-400">1. Introdução & Ondulatória</a>
+            <a href="#arquitetonica" class="block px-3 py-2.5 rounded-lg text-slate-200 hover:bg-slate-800 hover:text-sky-400">2. Fundamentação & Arquitetura</a>
+            <a href="#saude-oms" class="block px-3 py-2.5 rounded-lg text-slate-200 hover:bg-slate-800 hover:text-sky-400">3. Saúde, OMS & Legislação</a>
+            <a href="#tecnologia" class="block px-3 py-2.5 rounded-lg text-slate-200 hover:bg-slate-800 hover:text-sky-400">4. Aplicações Tecnológicas</a>
+            <a href="#conclusao" class="block px-3 py-2.5 rounded-lg text-slate-200 hover:bg-slate-800 hover:text-sky-400">5. Conclusão & Referências</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="inicio" class="relative min-h-screen flex items-center pt-20 pb-16 overflow-hidden">
+        <!-- Canvas de Ondas Animadas no Fundo -->
+        <canvas id="hero-wave-canvas" class="absolute inset-0 w-full h-full pointer-events-none opacity-45"></canvas>
+        <div class="absolute inset-0 bg-gradient-to-b from-slate-950/40 via-slate-950/75 to-[#080d1a] pointer-events-none"></div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div class="max-w-4xl">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-500/10 border border-sky-400/30 text-sky-300 text-xs sm:text-sm font-medium mb-6">
+                    <span class="w-2 h-2 rounded-full bg-sky-400 animate-ping"></span>
+                    Disciplina: Tecnociência • Estudo Científico Interativo
+                </div>
+
+                <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.15] mb-6">
+                    Um Estudo sobre <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-cyan-300 to-indigo-400">Ondulatória, Isolamento Acústico</span> e os Impactos Físicos e Mentais do Ruído Excessivo
+                </h1>
+
+                <p class="text-base sm:text-lg text-slate-300 leading-relaxed max-w-3xl mb-8">
+                    Uma análise integrada sobre como a física das ondas sonoras, o planejamento arquitetônico e as normas de proteção auditiva combatem a poluição sonora — um dos maiores desafios ambientais e de saúde pública do século XXI.
+                </p>
+
+                <!-- Card de Créditos da Equipe -->
+                <div class="glass-card rounded-2xl p-5 sm:p-6 mb-8 border-l-4 border-l-sky-400">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-center">
+                        <div class="sm:col-span-2">
+                            <span class="text-xs uppercase tracking-wider text-sky-400 font-semibold block mb-1">Integrantes do Grupo</span>
+                            <div class="flex flex-wrap gap-2 mt-1.5">
+                                <span class="px-3 py-1 rounded-lg bg-slate-800/90 border border-slate-700 text-slate-100 text-sm font-medium">
+                                    <i class="fa-solid fa-user-graduate text-sky-400 mr-1.5"></i>Eduardo <span class="font-mono text-sky-300">Nº 10</span>
+                                </span>
+                                <span class="px-3 py-1 rounded-lg bg-slate-800/90 border border-slate-700 text-slate-100 text-sm font-medium">
+                                    <i class="fa-solid fa-user-graduate text-sky-400 mr-1.5"></i>Vinicius <span class="font-mono text-sky-300">Nº 34</span>
+                                </span>
+                                <span class="px-3 py-1 rounded-lg bg-slate-800/90 border border-slate-700 text-slate-100 text-sm font-medium">
+                                    <i class="fa-solid fa-user-graduate text-sky-400 mr-1.5"></i>Rafael <span class="font-mono text-sky-300">Nº 29</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold block mb-1">Turma / Ano</span>
+                            <p class="text-white font-bold text-base">2º Ano D</p>
+                        </div>
+                        <div>
+                            <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold block mb-1">Disciplina & Ano</span>
+                            <p class="text-white font-bold text-base">Tecnociência • <span class="text-sky-400 font-mono">2026</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botões de Ação -->
+                <div class="flex flex-wrap gap-4">
+                    <a href="#ondulatoria" class="px-6 py-3.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-sm sm:text-base transition shadow-lg shadow-sky-500/25 flex items-center gap-2">
+                        Explorar Estudo & Simuladores <i class="fa-solid fa-arrow-down"></i>
+                    </a>
+                    <a href="#medidor-db" class="px-6 py-3.5 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-white border border-slate-700 font-semibold text-sm sm:text-base transition flex items-center gap-2">
+                        <i class="fa-solid fa-gauge-high text-amber-400"></i> Testar Decibelímetro OMS/NR-15
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO 1: INTRODUÇÃO E ONDULATÓRIA INTERATIVA -->
+    <section id="ondulatoria" class="py-20 border-t border-slate-800/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="reveal mb-12">
+                <span class="text-sky-400 font-mono text-sm font-semibold tracking-wider uppercase">Seção 01 • Física do Som</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-2 mb-4">Introdução & Conexão com a Ondulatória</h2>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 text-slate-300 leading-relaxed">
+                    <p>
+                        O som é parte fundamental da nossa percepção do mundo, permitindo a comunicação, o aprendizado e a apreciação da música. Contudo, o rápido desenvolvimento urbano e industrial transformou o ambiente acústico contemporâneo, fazendo com que ruídos indesejados penetrassem em residências, locais de trabalho e escolas. Essa sobrecarga dá origem à <strong class="text-white">poluição sonora</strong>, reconhecida como um dos principais problemas ambientais e de saúde pública do século XXI.
+                    </p>
+                    <p>
+                        Do ponto de vista da física, o som é uma <strong class="text-sky-400">onda mecânica longitudinal e tridimensional</strong>. Ele necessita de um meio material (sólido, líquido ou gasoso) para se propagar através de compressões e rarefações sucessivas das moléculas da matéria — <span class="underline decoration-sky-500/60">não se propagando no vácuo</span>.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 4 Cards das Grandezas Físicas -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-14 reveal">
+                <div class="glass-card rounded-2xl p-6">
+                    <div class="w-11 h-11 rounded-xl bg-sky-500/15 text-sky-400 flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-wave-square"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Frequência (<span class="font-mono text-sky-400">f</span>)</h3>
+                    <p class="text-sm text-slate-300 leading-relaxed mb-3">
+                        Quantidade de oscilações por segundo, medida em <strong>Hertz (Hz)</strong>. Determina o tom ou altura (graves = baixa frequência; agudos = alta frequência).
+                    </p>
+                    <div class="text-xs font-mono bg-slate-900/90 text-sky-300 px-3 py-2 rounded-lg border border-slate-800">
+                        Faixa audível: 20 Hz a 20.000 Hz
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6">
+                    <div class="w-11 h-11 rounded-xl bg-indigo-500/15 text-indigo-400 flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-arrows-left-right"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Comprimento de Onda (<span class="font-mono text-indigo-400">λ</span>)</h3>
+                    <p class="text-sm text-slate-300 leading-relaxed mb-3">
+                        Distância espacial entre duas regiões consecutivas de maior compressão (ou rarefação) do meio material. Medido em <strong>metros (m)</strong>.
+                    </p>
+                    <div class="text-xs font-mono bg-slate-900/90 text-indigo-300 px-3 py-2 rounded-lg border border-slate-800">
+                        Relação inversa à frequência: λ = v / f
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6">
+                    <div class="w-11 h-11 rounded-xl bg-emerald-500/15 text-emerald-400 flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-gauge-simple-high"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Velocidade (<span class="font-mono text-emerald-400">v</span>)</h3>
+                    <p class="text-sm text-slate-300 leading-relaxed mb-3">
+                        Rapidez com que a perturbação viaja pelo meio. No ar a 20 °C vale aprox. <strong>343 m/s</strong>. Em sólidos densos (concreto, aço), é muito maior.
+                    </p>
+                    <div class="text-xs font-mono bg-slate-900/90 text-emerald-300 px-3 py-2 rounded-lg border border-slate-800">
+                        v(sólido) &gt; v(líquido) &gt; v(gás)
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6">
+                    <div class="w-11 h-11 rounded-xl bg-amber-500/15 text-amber-400 flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-volume-high"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Amplitude & Intensidade (<span class="font-mono text-amber-400">I</span>)</h3>
+                    <p class="text-sm text-slate-300 leading-relaxed mb-3">
+                        A amplitude representa a energia transportada pela onda; quanto maior a oscilação molecular, maior a intensidade percebida como "volume".
+                    </p>
+                    <div class="text-xs font-mono bg-slate-900/90 text-amber-300 px-3 py-2 rounded-lg border border-slate-800">
+                        Unidade SI: Watt/m² (W/m²)
+                    </div>
+                </div>
+            </div>
+
+            <!-- SIMULADOR INTERATIVO DE ONDA SONORA -->
+            <div class="glass-card rounded-3xl p-6 sm:p-8 border border-sky-500/30 reveal">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                    <div>
+                        <span class="px-3 py-1 rounded-full bg-sky-500/20 text-sky-300 text-xs font-mono font-semibold">LABORATÓRIO VIRTUAL INTERATIVO</span>
+                        <h3 class="text-2xl font-bold text-white mt-2">Simulador de Propagação de Onda Sonora</h3>
+                        <p class="text-sm text-slate-400">Altere a frequência, amplitude e o meio material para visualizar a onda e calcular <span class="font-mono text-sky-400">λ = v / f</span> em tempo real.</p>
+                    </div>
+                    <!-- Tom sonoro opcional (Web Audio API) -->
+                    <button id="toggle-audio-btn" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-600 text-sm font-semibold text-sky-300 flex items-center gap-2 self-start transition">
+                        <i id="audio-icon" class="fa-solid fa-volume-xmark"></i>
+                        <span id="audio-label">Ouvir Frequência (Áudio)</span>
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <!-- Controles -->
+                    <div class="lg:col-span-5 space-y-5 bg-slate-900/80 p-5 rounded-2xl border border-slate-800">
+                        <!-- Meio Material -->
+                        <div>
+                            <label for="medium-select" class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
+                                Meio Material de Propagação
+                            </label>
+                            <select id="medium-select" class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl px-4 py-3 text-sm font-medium focus:outline-none focus:border-sky-400">
+                                <option value="343" data-name="Ar (20 °C)">Ar a 20 °C — v = 343 m/s</option>
+                                <option value="1480" data-name="Água (25 °C)">Água Líquida — v = 1.480 m/s</option>
+                                <option value="3400" data-name="Concreto">Concreto Estrutural — v = 3.400 m/s</option>
+                                <option value="5960" data-name="Aço">Aço — v = 5.960 m/s</option>
+                            </select>
+                        </div>
+
+                        <!-- Frequência -->
+                        <div>
+                            <div class="flex justify-between text-sm mb-1.5">
+                                <span class="text-slate-300 font-medium">Frequência (<span class="font-mono text-sky-400">f</span>)</span>
+                                <span id="freq-val" class="font-mono font-bold text-sky-400">440 Hz</span>
+                            </div>
+                            <input id="freq-slider" type="range" min="50" max="2000" step="10" value="440" class="w-full">
+                            <div class="flex justify-between text-[11px] text-slate-500 mt-1 font-mono">
+                                <span>50 Hz (Grave)</span>
+                                <span>440 Hz (Lá)</span>
+                                <span>2000 Hz (Agudo)</span>
+                            </div>
+                        </div>
+
+                        <!-- Amplitude -->
+                        <div>
+                            <div class="flex justify-between text-sm mb-1.5">
+                                <span class="text-slate-300 font-medium">Amplitude (Energia / Volume)</span>
+                                <span id="amp-val" class="font-mono font-bold text-amber-400">65%</span>
+                            </div>
+                            <input id="amp-slider" type="range" min="10" max="100" step="1" value="65" class="w-full">
+                        </div>
+
+                        <!-- Resultados Calculados -->
+                        <div class="grid grid-cols-2 gap-3 pt-2">
+                            <div class="bg-slate-950/90 p-3.5 rounded-xl border border-slate-800">
+                                <span class="text-[11px] text-slate-400 block">Velocidade (<span class="font-mono">v</span>)</span>
+                                <span id="sim-speed" class="font-mono text-lg font-bold text-emerald-400">343 m/s</span>
+                            </div>
+                            <div class="bg-slate-950/90 p-3.5 rounded-xl border border-slate-800">
+                                <span class="text-[11px] text-slate-400 block">Comprimento (<span class="font-mono">λ = v/f</span>)</span>
+                                <span id="sim-lambda" class="font-mono text-lg font-bold text-indigo-400">0,780 m</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Canvas Visualização -->
+                    <div class="lg:col-span-7">
+                        <div class="relative rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 p-3">
+                            <div class="flex items-center justify-between text-xs text-slate-400 font-mono mb-2 px-1">
+                                <span>REPRESENTAÇÃO TRANSVERSAL + COMPRESSÃO MOLECULAR</span>
+                                <span id="sim-tone-tag" class="text-sky-400">Som Médio</span>
+                            </div>
+                            <div class="w-full h-64 sm:h-72">
+                                <canvas id="wave-sim-canvas" class="w-full h-full rounded-xl block"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO 2: FUNDAMENTAÇÃO TEÓRICA & ACÚSTICA ARQUITETÔNICA -->
+    <section id="arquitetonica" class="py-20 bg-slate-900/40 border-t border-slate-800/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="reveal mb-12">
+                <span class="text-sky-400 font-mono text-sm font-semibold tracking-wider uppercase">Seção 02 • Matemática & Arquitetura</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-2 mb-4">Fundamentação Teórica & Acústica Arquitetônica</h2>
+                <p class="text-slate-300 max-w-3xl leading-relaxed">
+                    A sensibilidade do ouvido humano não é linear, mas sim <strong class="text-white">logarítmica</strong>. Por isso, a escala física de intensidade sonora em Watts por metro quadrado é convertida na escala prática de <strong class="text-sky-400">Decibéis (dB)</strong>.
+                </p>
+            </div>
+
+            <!-- 3 Fórmulas em Destaque -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 reveal">
+                <!-- Fórmula 1 -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col justify-between">
+                    <div>
+                        <span class="text-xs font-mono text-sky-400 uppercase font-semibold">Intensidade Sonora</span>
+                        <div class="my-4 py-4 px-4 rounded-xl bg-slate-950 border border-slate-800 text-center font-mono text-2xl sm:text-3xl font-bold text-white">
+                            I = <span class="text-sky-400">P</span> / <span class="text-indigo-400">A</span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Onde <strong class="text-slate-200">I</strong> é a intensidade (W/m²), <strong class="text-sky-300">P</strong> é a potência da fonte sonora em Watts (W) e <strong class="text-indigo-300">A</strong> é a área de distribuição (m²).
+                    </p>
+                </div>
+
+                <!-- Fórmula 2 -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col justify-between border-sky-500/30">
+                    <div>
+                        <span class="text-xs font-mono text-amber-400 uppercase font-semibold">Nível de Intensidade (Decibel)</span>
+                        <div class="my-4 py-4 px-3 rounded-xl bg-slate-950 border border-slate-800 text-center font-mono text-xl sm:text-2xl font-bold text-white">
+                            β = 10 · log<sub>10</sub>(<span class="text-amber-400">I</span> / <span class="text-slate-400">I<sub>0</sub></span>)
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Em que <strong class="text-slate-200">I<sub>0</sub> = 10<sup>-12</sup> W/m²</strong> representa o limiar de audibilidade humana (o som mais fraco detectável por um ouvido saudável).
+                    </p>
+                </div>
+
+                <!-- Fórmula 3 -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col justify-between">
+                    <div>
+                        <span class="text-xs font-mono text-emerald-400 uppercase font-semibold">Equação Fundamental da Ondulatória</span>
+                        <div class="my-4 py-4 px-4 rounded-xl bg-slate-950 border border-slate-800 text-center font-mono text-2xl sm:text-3xl font-bold text-white">
+                            v = <span class="text-emerald-400">λ</span> · <span class="text-sky-400">f</span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Relação matemática direta entre a velocidade de propagação (<strong class="text-slate-200">v</strong>), o comprimento de onda (<strong class="text-emerald-300">λ</strong>) e a frequência (<strong class="text-sky-300">f</strong>).
+                    </p>
+                </div>
+            </div>
+
+            <!-- Calculadora Interativa de Decibéis e Comprimento de Onda -->
+            <div class="glass-card rounded-2xl p-6 mb-16 border border-slate-700/80 reveal">
+                <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-calculator text-sky-400"></i> Calculadora Científica de Acústica
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Calc 1: Intensidade para dB -->
+                    <div class="bg-slate-950/70 p-4 rounded-xl border border-slate-800">
+                        <h4 class="text-sm font-semibold text-amber-400 mb-3">1. Converter Intensidade (W/m²) em Decibéis (β)</h4>
+                        <div class="flex flex-col sm:flex-row gap-3 items-end">
+                            <div class="w-full">
+                                <label for="calc-intensity-exp" class="text-xs text-slate-400 block mb-1">Expoente de 10 (I = 10<sup>x</sup> W/m², de -12 a 2)</label>
+                                <input id="calc-intensity-exp" type="number" min="-12" max="2" step="0.5" value="-4" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white font-mono text-sm">
+                            </div>
+                            <div class="w-full sm:w-auto bg-slate-900 px-4 py-2 rounded-lg border border-amber-500/30 text-right shrink-0">
+                                <span class="text-[11px] text-slate-400 block">Resultado β</span>
+                                <span id="calc-db-result" class="font-mono font-bold text-amber-400 text-lg">80,0 dB</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Calc 2: Velocidade e Frequência para Comprimento de Onda -->
+                    <div class="bg-slate-950/70 p-4 rounded-xl border border-slate-800">
+                        <h4 class="text-sm font-semibold text-emerald-400 mb-3">2. Calcular Comprimento de Onda (λ = v / f)</h4>
+                        <div class="grid grid-cols-3 gap-2 items-end">
+                            <div>
+                                <label for="calc-v" class="text-xs text-slate-400 block mb-1">v (m/s)</label>
+                                <input id="calc-v" type="number" min="1" max="10000" value="343" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white font-mono text-sm">
+                            </div>
+                            <div>
+                                <label for="calc-f" class="text-xs text-slate-400 block mb-1">f (Hz)</label>
+                                <input id="calc-f" type="number" min="1" max="50000" value="1000" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white font-mono text-sm">
+                            </div>
+                            <div class="bg-slate-900 px-3 py-2 rounded-lg border border-emerald-500/30 text-right">
+                                <span class="text-[11px] text-slate-400 block">λ (metros)</span>
+                                <span id="calc-lambda-result" class="font-mono font-bold text-emerald-400 text-base">0,343 m</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2.2 Isolamento vs Absorção Acústica -->
+            <div class="mb-14 reveal">
+                <h3 class="text-2xl font-bold text-white mb-2">2.2 Acústica Arquitetônica: Isolamento vs. Absorção Acústica</h3>
+                <p class="text-slate-300 text-sm sm:text-base mb-6">
+                    Na arquitetura, estas duas frentes são frequentemente confundidas, mas desempenham papéis físicos completamente distintos:
+                </p>
+
+                <!-- Tabela Comparativa Responsiva -->
+                <div class="overflow-x-auto rounded-2xl border border-slate-800 shadow-xl mb-8">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-900 text-slate-200 text-xs sm:text-sm uppercase tracking-wider border-b border-slate-800">
+                                <th class="py-4 px-5 font-bold">Parâmetro</th>
+                                <th class="py-4 px-5 font-bold text-sky-400"><i class="fa-solid fa-shield-halved mr-2"></i>Isolamento Acústico</th>
+                                <th class="py-4 px-5 font-bold text-indigo-400"><i class="fa-solid fa-layer-group mr-2"></i>Absorção Acústica</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800/80 bg-slate-950/70 text-sm text-slate-300">
+                            <tr>
+                                <td class="py-4 px-5 font-semibold text-white">Objetivo Principal</td>
+                                <td class="py-4 px-5">Impedir a transmissão de som entre dois ambientes distintos (de fora para dentro ou vice-versa).</td>
+                                <td class="py-4 px-5">Controlar as reflexões internas de som em um mesmo ambiente, reduzindo o eco e o tempo de reverberação.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-5 font-semibold text-white">Princípio Físico</td>
+                                <td class="py-4 px-5"><strong class="text-sky-300">Reflexão e estanqueidade (Lei da Massa).</strong> Meios densos e rígidos refletem a onda sonora incidente.</td>
+                                <td class="py-4 px-5"><strong class="text-indigo-300">Dissipação de energia cinética</strong> sonora em calor através do atrito do ar em materiais porosos e fibrosos.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-5 font-semibold text-white">Materiais Típicos</td>
+                                <td class="py-4 px-5">Paredes de concreto, alvenaria, vidro duplo laminado, chapas de chumbo, drywall com lã mineral.</td>
+                                <td class="py-4 px-5">Esponjas anecoicas, painéis de fibra de madeira, espumas de poliuretano, tecidos pesados, lã de rocha.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Destaque Visual: Sistema Massa-Mola-Massa -->
+                <div class="glass-card rounded-2xl p-6 sm:p-8 border-l-4 border-l-sky-400">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                        <div class="lg:col-span-6">
+                            <span class="text-xs font-mono uppercase text-sky-400 font-bold">Engenharia de Isolamento</span>
+                            <h4 class="text-xl font-bold text-white mt-1 mb-3">Sistema Massa – Mola – Massa</h4>
+                            <p class="text-sm text-slate-300 leading-relaxed mb-4">
+                                Para um isolamento de alta eficiência sem paredes excessivamente espessas, aplica-se o sistema <strong>Massa-Mola-Massa</strong> (ex.: Chapas de Drywall + Lã Mineral + Chapas de Drywall). A energia sonora perde amplitude ao tentar vibrar a primeira massa rígida, é dissipada pela elasticidade porosa da lã intermediária ("mola") e barrada pela segunda placa.
+                            </p>
+                        </div>
+                        <!-- Diagrama Esquemático Visual -->
+                        <div class="lg:col-span-6">
+                            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+                                <div class="flex items-center justify-between gap-2 text-center">
+                                    <div class="flex-1">
+                                        <div class="text-rose-400 text-xs font-mono mb-1">Som Incidente</div>
+                                        <div class="text-2xl text-rose-400 animate-pulse"><i class="fa-solid fa-volume-high"></i> <i class="fa-solid fa-arrow-right"></i></div>
+                                    </div>
+                                    <!-- Massa 1 -->
+                                    <div class="w-12 sm:w-16 h-28 rounded-lg bg-slate-700 border-2 border-slate-500 flex flex-col items-center justify-center p-1">
+                                        <span class="text-[10px] font-bold text-white uppercase">Massa 1</span>
+                                        <span class="text-[9px] text-slate-300">Drywall</span>
+                                    </div>
+                                    <!-- Mola -->
+                                    <div class="w-16 sm:w-24 h-28 rounded-lg bg-amber-500/20 border-2 border-dashed border-amber-400/70 flex flex-col items-center justify-center p-1">
+                                        <span class="text-[10px] font-bold text-amber-300 uppercase">Mola</span>
+                                        <span class="text-[9px] text-amber-200 text-center">Lã Mineral (Absorve)</span>
+                                    </div>
+                                    <!-- Massa 2 -->
+                                    <div class="w-12 sm:w-16 h-28 rounded-lg bg-slate-700 border-2 border-slate-500 flex flex-col items-center justify-center p-1">
+                                        <span class="text-[10px] font-bold text-white uppercase">Massa 2</span>
+                                        <span class="text-[9px] text-slate-300">Drywall</span>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="text-emerald-400 text-xs font-mono mb-1">Atenuado</div>
+                                        <div class="text-xl text-emerald-400"><i class="fa-solid fa-volume-low"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2.3 Exemplos Práticos do Cotidiano -->
+            <div class="reveal">
+                <h3 class="text-2xl font-bold text-white mb-6">2.3 Exemplos Práticos do Cotidiano</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="glass-card rounded-2xl p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="w-10 h-10 rounded-xl bg-rose-500/15 text-rose-400 flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-car-side"></i>
+                            </span>
+                            <span class="font-mono text-xs font-bold px-2.5 py-1 rounded-md bg-rose-500/20 text-rose-300">75 dB – 90 dB</span>
+                        </div>
+                        <h4 class="text-lg font-bold text-white mb-2">Ruído de Tráfego Urbano</h4>
+                        <p class="text-sm text-slate-300 leading-relaxed">
+                            Veículos automotores, buzinas e escapamentos geram níveis contínuos elevados nas grandes avenidas, exigindo barreiras acústicas e fachadas vedadas.
+                        </p>
+                    </div>
+
+                    <div class="glass-card rounded-2xl p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="w-10 h-10 rounded-xl bg-amber-500/15 text-amber-400 flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-chalkboard-user"></i>
+                            </span>
+                            <span class="font-mono text-xs font-bold px-2.5 py-1 rounded-md bg-amber-500/20 text-amber-300">Efeito Lombard</span>
+                        </div>
+                        <h4 class="text-lg font-bold text-white mb-2">Ambientes Escolares</h4>
+                        <p class="text-sm text-slate-300 leading-relaxed">
+                            Salas de aula sem absorção acústica apresentam alto tempo de reverberação, obrigando professores e alunos a elevarem involuntariamente a voz (<strong>Efeito Lombard</strong>), gerando fadiga vocal e dispersão.
+                        </p>
+                    </div>
+
+                    <div class="glass-card rounded-2xl p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="w-10 h-10 rounded-xl bg-sky-500/15 text-sky-400 flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-building-shield"></i>
+                            </span>
+                            <span class="font-mono text-xs font-bold px-2.5 py-1 rounded-md bg-sky-500/20 text-sky-300">Vidro Duplo</span>
+                        </div>
+                        <h4 class="text-lg font-bold text-white mb-2">Construção Civil</h4>
+                        <p class="text-sm text-slate-300 leading-relaxed">
+                            O uso de janelas acústicas com vidro duplo laminado cria uma câmara de ar ou gás inerte (como argônio) entre as lâminas, atenuando drasticamente a transmissão sonora externa.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO 3: IMPACTOS NA SAÚDE, NORMAS DA OMS E LEGISLAÇÃO -->
+    <section id="saude-oms" class="py-20 border-t border-slate-800/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="reveal mb-12">
+                <span class="text-rose-400 font-mono text-sm font-semibold tracking-wider uppercase">Seção 03 • Saúde Pública & Normas</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-2 mb-4">Impactos na Saúde, Normas da OMS e Legislação</h2>
+                <p class="text-slate-300 max-w-4xl leading-relaxed">
+                    A exposição a altos níveis de ruído dispara reações fisiológicas automáticas de alerta mediadas pelo <strong class="text-white">sistema nervoso simpático</strong>, provocando a liberação contínua de hormônios do estresse como <strong class="text-amber-400">cortisol</strong> e <strong class="text-rose-400">adrenalina</strong>.
+                </p>
+            </div>
+
+            <!-- Saúde Física vs Saúde Mental -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16 reveal">
+                <!-- Card Saúde Física -->
+                <div class="glass-card rounded-3xl p-6 sm:p-8 border-t-4 border-t-rose-500">
+                    <div class="flex items-center gap-3 mb-5">
+                        <div class="w-12 h-12 rounded-2xl bg-rose-500/15 text-rose-400 flex items-center justify-center text-2xl">
+                            <i class="fa-solid fa-heart-pulse"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-white">Impactos na Saúde Física</h3>
+                            <span class="text-xs text-rose-300">Danos auditivos e cardiovasculares</span>
+                        </div>
+                    </div>
+                    <ul class="space-y-3.5 text-sm text-slate-300">
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-circle-exclamation text-rose-400 mt-1"></i>
+                            <span><strong class="text-white">PAIR (Perda Auditiva Induzida por Ruído):</strong> Destruição permanente e irreversível das células ciliadas da cóclea no ouvido interno.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-circle-exclamation text-rose-400 mt-1"></i>
+                            <span><strong class="text-white">Risco Cardiovascular:</strong> Hipertensão arterial crônica e aumento significativo do risco de infarto e AVC.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-circle-exclamation text-rose-400 mt-1"></i>
+                            <span><strong class="text-white">Zumbido Crônico (Tinnitus):</strong> Percepção contínua de apitos ou chiados sem fonte sonora externa.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-circle-exclamation text-rose-400 mt-1"></i>
+                            <span><strong class="text-white">Perda de Sensibilidade Auditiva:</strong> Dificuldade progressiva para compreender a fala em ambientes ruidosos.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Card Saúde Mental -->
+                <div class="glass-card rounded-3xl p-6 sm:p-8 border-t-4 border-t-amber-500">
+                    <div class="flex items-center gap-3 mb-5">
+                        <div class="w-12 h-12 rounded-2xl bg-amber-500/15 text-amber-400 flex items-center justify-center text-2xl">
+                            <i class="fa-solid fa-brain"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-white">Impactos na Saúde Mental</h3>
+                            <span class="text-xs text-amber-300">Efeitos cognitivos e psicológicos</span>
+                        </div>
+                    </div>
+                    <ul class="space-y-3.5 text-sm text-slate-300">
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-bolt text-amber-400 mt-1"></i>
+                            <span><strong class="text-white">Alterações de Humor e Irritabilidade:</strong> Baixa tolerância e fadiga emocional constante.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-bolt text-amber-400 mt-1"></i>
+                            <span><strong class="text-white">Ansiedade e Estresse Crônico:</strong> Estado contínuo de hipervigilância causado pelo cortisol elevado.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-bolt text-amber-400 mt-1"></i>
+                            <span><strong class="text-white">Distúrbios do Sono:</strong> Insônia e fragmentação das fases profundas e reparadoras do sono (mesmo sem despertar consciente).</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-bolt text-amber-400 mt-1"></i>
+                            <span><strong class="text-white">Déficit de Atenção e Memória:</strong> Prejuízo direto no desempenho escolar, leitura e concentração.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 3.2 MEDIDOR INTERATIVO DE DECIBÉIS (OMS + NR-15 + ABNT) -->
+            <div id="medidor-db" class="glass-card rounded-3xl p-6 sm:p-8 border border-amber-500/30 mb-16 reveal">
+                <div class="mb-6">
+                    <span class="px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-mono font-semibold">SIMULADOR DE RISCO AUDITIVO & LEGISLAÇÃO</span>
+                    <h3 class="text-2xl font-bold text-white mt-2">3.2 Termômetro de Decibéis: Limites da OMS & NR-15</h3>
+                    <p class="text-sm text-slate-400">Arraste o controle abaixo (de 30 dB a 140 dB) para verificar a classificação da OMS e o tempo máximo de exposição pela NR-15.</p>
+                </div>
+
+                <!-- Slider de dB -->
+                <div class="bg-slate-950/90 p-6 rounded-2xl border border-slate-800 mb-6">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+                        <div>
+                            <span class="text-xs uppercase text-slate-400 font-semibold block">Nível de Pressão Sonora Selecionado</span>
+                            <div class="flex items-baseline gap-3">
+                                <span id="db-meter-value" class="font-mono text-4xl sm:text-5xl font-extrabold text-emerald-400">50 dB</span>
+                                <span id="db-meter-example" class="text-sm text-slate-300 font-medium">Conversa tranquila / Escritório calmo</span>
+                            </div>
+                        </div>
+                        <div id="db-status-badge" class="px-4 py-2 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 font-bold text-sm self-start sm:self-center">
+                            Conforto Acústico (OMS)
+                        </div>
+                    </div>
+
+                    <input id="db-slider" type="range" min="30" max="140" step="1" value="50" class="w-full mb-2">
+                    <div class="flex justify-between text-[11px] font-mono text-slate-400">
+                        <span>30 dB (Sussurro)</span>
+                        <span>55 dB (Limite OMS)</span>
+                        <span>85 dB (Perigo NR-15)</span>
+                        <span>120+ dB (Dor)</span>
+                    </div>
+
+                    <!-- Painel Dinâmico de Diagnóstico OMS + NR-15 -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6 pt-6 border-t border-slate-800">
+                        <div class="bg-slate-900/90 p-4 rounded-xl border border-slate-800">
+                            <span class="text-xs font-mono text-sky-400 uppercase font-bold block mb-1">Avaliação OMS (Saúde)</span>
+                            <p id="oms-diagnosis" class="text-sm text-slate-200 leading-relaxed">
+                                Até 50–55 dB: Nível máximo recomendado pela OMS para conforto acústico diurno sem estresse fisiológico.
+                            </p>
+                        </div>
+                        <div class="bg-slate-900/90 p-4 rounded-xl border border-slate-800">
+                            <span class="text-xs font-mono text-amber-400 uppercase font-bold block mb-1">Regra NR-15 (Segurança do Trabalho)</span>
+                            <p id="nr15-diagnosis" class="text-sm text-slate-200 leading-relaxed">
+                                Abaixo de 85 dB: Exposição ocupacional permitida sem limite restritivo de insalubridade (jornada padrão de 8h segura).
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cards de Referência Rápida: OMS, NR-15 e NBR 10151/10152 -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-slate-900/70 p-5 rounded-2xl border border-slate-800">
+                        <h4 class="font-bold text-white text-base mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-globe text-sky-400"></i> Patamares da OMS
+                        </h4>
+                        <ul class="space-y-2 text-xs sm:text-sm text-slate-300">
+                            <li><strong class="text-emerald-400">Até 50–55 dB:</strong> Conforto acústico diurno.</li>
+                            <li><strong class="text-amber-400">Acima de 70 dB:</strong> Risco continuado cardiovascular.</li>
+                            <li><strong class="text-orange-400">Acima de 85 dB:</strong> Zona de perigo (8h/dia) para dano auditivo definitivo.</li>
+                            <li><strong class="text-rose-400">120 a 140 dB:</strong> Limiar da dor (turbina de avião, explosões).</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-slate-900/70 p-5 rounded-2xl border border-slate-800">
+                        <h4 class="font-bold text-white text-base mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-hard-hat text-amber-400"></i> NR-15 (MTE Brasil)
+                        </h4>
+                        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed mb-2">
+                            Estipula o limite máximo de <strong>85 dB</strong> para 8 horas diárias sem EPI. A cada acréscimo de <strong>+5 dB</strong>, o tempo máximo permitido cai pela metade:
+                        </p>
+                        <div class="font-mono text-xs bg-slate-950 p-2.5 rounded-lg text-amber-300 border border-slate-800">
+                            85 dB = 8h • 90 dB = 4h • 95 dB = 2h • 100 dB = 1h
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900/70 p-5 rounded-2xl border border-slate-800">
+                        <h4 class="font-bold text-white text-base mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-scale-balanced text-indigo-400"></i> ABNT NBR 10151 / 10152
+                        </h4>
+                        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed mb-2">
+                            Fixam os níveis de aceitabilidade sonora em comunidades e edificações brasileiras:
+                        </p>
+                        <ul class="space-y-1 text-xs font-mono text-indigo-300">
+                            <li>• Hospitais: 35 – 40 dB</li>
+                            <li>• Salas de Aula: 35 – 45 dB</li>
+                            <li>• Residencial Noturno: 45 – 50 dB</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3.3 Proteção Auditiva e Fones de Ouvido -->
+            <div class="reveal">
+                <h3 class="text-2xl font-bold text-white mb-6">3.3 Proteção Auditiva e Uso Correto de Fones de Ouvido</h3>
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    <!-- Regra dos 60/60 -->
+                    <div class="lg:col-span-5 glass-card rounded-2xl p-6 border-l-4 border-l-emerald-400 flex flex-col justify-between">
+                        <div>
+                            <span class="text-xs font-mono uppercase text-emerald-400 font-bold">Prevenção entre Jovens</span>
+                            <h4 class="text-2xl font-extrabold text-white mt-1 mb-3">A Regra dos 60 / 60 (OMS)</h4>
+                            <p class="text-sm text-slate-300 leading-relaxed mb-6">
+                                Com a expansão dos dispositivos móveis, o uso inadequado de fones tornou-se a principal causa de perda auditiva precoce em jovens. Para prevenir lesões na cóclea, adote a regra:
+                            </p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-slate-950 p-4 rounded-xl border border-emerald-500/30 text-center">
+                                <span class="font-mono text-3xl font-extrabold text-emerald-400 block">60%</span>
+                                <span class="text-xs text-slate-300 mt-1 block">Volume máximo do aparelho</span>
+                            </div>
+                            <div class="bg-slate-950 p-4 rounded-xl border border-sky-500/30 text-center">
+                                <span class="font-mono text-3xl font-extrabold text-sky-400 block">60 min</span>
+                                <span class="text-xs text-slate-300 mt-1 block">Tempo contínuo antes de pausa</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- EPIs Auditivos -->
+                    <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div class="glass-card rounded-2xl p-6">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="w-10 h-10 rounded-xl bg-sky-500/15 text-sky-400 flex items-center justify-center text-lg">
+                                    <i class="fa-solid fa-ear-listen"></i>
+                                </span>
+                                <span class="font-mono text-xs font-bold text-sky-300 bg-sky-500/15 px-2.5 py-1 rounded-md">Atenuação: 15 – 25 dB</span>
+                            </div>
+                            <h4 class="text-lg font-bold text-white mb-2">Protetores de Inserção (Plugues)</h4>
+                            <p class="text-sm text-slate-300 leading-relaxed">
+                                Fabricados em espuma moldável ou silicone, são inseridos diretamente no canal auditivo. Exigem moldagem correta para vedação eficaz e são leves e discretos.
+                            </p>
+                        </div>
+
+                        <div class="glass-card rounded-2xl p-6">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="w-10 h-10 rounded-xl bg-indigo-500/15 text-indigo-400 flex items-center justify-center text-lg">
+                                    <i class="fa-solid fa-headphones"></i>
+                                </span>
+                                <span class="font-mono text-xs font-bold text-indigo-300 bg-indigo-500/15 px-2.5 py-1 rounded-md">Alta Atenuação</span>
+                            </div>
+                            <h4 class="text-lg font-bold text-white mb-2">Protetores Tipo Concha (Abafadores)</h4>
+                            <p class="text-sm text-slate-300 leading-relaxed">
+                                Envolvem completamente a orelha externa com almofadas vedantes. Indicados para ruídos industriais intensos e aeroportos, oferecendo maior higiene em locais com poeira.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO 4: APLICAÇÕES TECNOLÓGICAS E CURIOSIDADES -->
+    <section id="tecnologia" class="py-20 bg-slate-900/40 border-t border-slate-800/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="reveal mb-12">
+                <span class="text-sky-400 font-mono text-sm font-semibold tracking-wider uppercase">Seção 04 • Inovação & Bioacústica</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-2 mb-4">Aplicações Tecnológicas e Curiosidades</h2>
+                <p class="text-slate-300 max-w-3xl leading-relaxed">
+                    Os princípios da física ondulatória permitiram criar tecnologias que protegem nossa audição, salvam vidas na medicina e revelam estratégias fascinantes da natureza.
+                </p>
+            </div>
+
+            <!-- Demonstração Interativa: Cancelamento Ativo de Ruído (ANC) -->
+            <div class="glass-card rounded-3xl p-6 sm:p-8 border border-sky-500/30 mb-10 reveal">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <div class="lg:col-span-5">
+                        <span class="px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-mono font-semibold">INTERFERÊNCIA DESTRUTIVA (180°)</span>
+                        <h3 class="text-2xl font-bold text-white mt-2 mb-3">Cancelamento Ativo de Ruído (ANC)</h3>
+                        <p class="text-sm text-slate-300 leading-relaxed mb-5">
+                            Fones modernos utilizam microfones externos para captar a onda sonora do ambiente. O chip interno gera instantaneamente uma <strong class="text-sky-400">onda anti-ruído de fase invertida (desfasada em 180°)</strong>. Quando ambas se encontram, ocorre <strong class="text-emerald-400">interferência destrutiva</strong>, anulando o barulho sem precisar aumentar o volume da música!
+                        </p>
+
+                        <!-- Botão Interativo Ligar/Desligar ANC -->
+                        <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-sm font-semibold text-white">Estado do Circuito ANC:</span>
+                                <span id="anc-status-text" class="font-mono text-xs font-bold px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-400">ATIVADO (180°)</span>
+                            </div>
+                            <button id="toggle-anc-btn" class="w-full py-3 px-4 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-sm transition flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-power-off"></i> Alternar Cancelamento Ativo (ANC)
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-7">
+                        <div class="bg-slate-950 rounded-2xl p-4 border border-slate-800">
+                            <div class="flex flex-wrap gap-4 text-xs font-mono mb-3">
+                                <span class="flex items-center gap-1.5 text-rose-400"><span class="w-3 h-1 bg-rose-400 inline-block"></span> Onda de Ruído</span>
+                                <span class="flex items-center gap-1.5 text-sky-400"><span class="w-3 h-1 bg-sky-400 inline-block"></span> Onda Anti-Ruído (180°)</span>
+                                <span class="flex items-center gap-1.5 text-emerald-400"><span class="w-3 h-1 bg-emerald-400 inline-block"></span> Onda Resultante</span>
+                            </div>
+                            <div class="w-full h-60">
+                                <canvas id="anc-canvas" class="w-full h-full rounded-xl block"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cards Ultrassonografia e Ecolocalização -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 reveal">
+                <div class="glass-card rounded-2xl p-6 sm:p-7">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-2xl bg-cyan-500/15 text-cyan-400 flex items-center justify-center text-2xl">
+                            <i class="fa-solid fa-stethoscope"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs font-mono text-cyan-400">ACIMA DE 2 MHz (INAUDÍVEL)</span>
+                            <h3 class="text-xl font-bold text-white">Ultrassonografia Médica</h3>
+                        </div>
+                    </div>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Na medicina diagnóstica, ondas sonoras de altíssima frequência (acima de <strong>2 MHz</strong>) são emitidas no corpo humano. A reflexão dessas ondas nas diferentes densidades dos tecidos gera ecos que são processados por computadores em imagens em tempo real, sem expor o paciente à radiação ionizante.
+                    </p>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 sm:p-7">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-2xl bg-indigo-500/15 text-indigo-400 flex items-center justify-center text-2xl">
+                            <i class="fa-solid fa-water"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs font-mono text-indigo-400">SONAR BIOLÓGICO</span>
+                            <h3 class="text-xl font-bold text-white">Ecolocalização na Natureza</h3>
+                        </div>
+                    </div>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Mamíferos como <strong>golfinhos e morcegos</strong> emitem pulsos sonoros de alta frequência e analisam o tempo de retorno e a variação de frequência dos ecos refletidos nos obstáculos para mapear o espaço tridimensional, calcular distâncias exatas e caçar na escuridão total.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO 5: CONCLUSÃO E REFERÊNCIAS BIBLIOGRÁFICAS -->
+    <section id="conclusao" class="py-20 border-t border-slate-800/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-card rounded-3xl p-8 sm:p-10 mb-14 border-t-4 border-t-sky-400 reveal">
+                <span class="text-sky-400 font-mono text-sm font-semibold tracking-wider uppercase">Seção 05 • Síntese do Grupo</span>
+                <h2 class="text-3xl font-extrabold text-white mt-2 mb-5">Conclusão</h2>
+                <div class="space-y-4 text-slate-300 leading-relaxed text-sm sm:text-base">
+                    <p>
+                        A elaboração deste trabalho permitiu ao grupo compreender de forma integrada como os conceitos teóricos de ondulatória — como frequência, amplitude, intensidade e interferência de ondas — aplicam-se diretamente a um dos maiores desafios da vida moderna: a <strong class="text-white">poluição sonora</strong>.
+                    </p>
+                    <p>
+                        Compreendemos que a acústica arquitetônica não é apenas uma preocupação estética ou de conforto, mas um requisito essencial para a saúde pública e o bem-estar ocupacional. O isolamento acústico eficaz combinado à absorção adequada previne que níveis danosos de ruído atinjam o organismo. Além disso, a conscientização individual — por meio do uso seguro de fones de ouvido e da adoção de equipamentos de proteção individual — é o caminho fundamental para a preservação irreversível da nossa audição. Concluímos que dominar a física do som nos concede ferramentas tecnológicas para construir ambientes urbanos e internos mais saudáveis e silenciosos.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Referências Bibliográficas -->
+            <div class="reveal">
+                <h3 class="text-xl font-bold text-white mb-5 flex items-center gap-2">
+                    <i class="fa-solid fa-book-open text-sky-400"></i> 6. Referências Bibliográficas
+                </h3>
+                <div class="bg-slate-900/70 rounded-2xl p-6 border border-slate-800">
+                    <ol class="list-decimal list-inside space-y-3 text-xs sm:text-sm text-slate-300 leading-relaxed">
+                        <li>
+                            <strong class="text-white">HALLIDAY, David; RESNICK, Robert; WALKER, Jearl.</strong> <em>Fundamentos de Física: Gravitação, Ondas e Termodinâmica.</em> Vol. 2. Rio de Janeiro: LTC, 2016.
+                        </li>
+                        <li>
+                            <strong class="text-white">ORGANIZAÇÃO MUNDIAL DA SAÚDE (OMS).</strong> <em>Environmental Noise Guidelines for the European Region.</em> Genebra: World Health Organization, 2018.
+                        </li>
+                        <li>
+                            <strong class="text-white">ASSOCIAÇÃO BRASILEIRA DE NORMAS TÉCNICAS (ABNT).</strong> <em>NBR 10151: Acústica - Medição e avaliação de níveis de pressão sonora em áreas habitadas.</em> Rio de Janeiro: ABNT, 2019.
+                        </li>
+                        <li>
+                            <strong class="text-white">MINISTÉRIO DO TRABALHO E EMPREGO.</strong> <em>Norma Regulamentadora nº 15 (NR-15) - Atividades e Operações Insalubres.</em> Brasília: MTE, 2022.
+                        </li>
+                        <li>
+                            <strong class="text-white">BISTAFA, Sylvio R.</strong> <em>Acústica Aplicada ao Controle do Ruído.</em> São Paulo: Editora Blucher, 2018.
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER INSTITUCIONAL -->
+    <footer class="bg-slate-950 border-t border-slate-800/80 py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="text-center md:text-left">
+                <p class="text-white font-bold text-base">
+                    Estudo de Tecnociência • <span class="text-sky-400">2º Ano D (2026)</span>
+                </p>
+                <p class="text-xs text-slate-400 mt-1">
+                    Integrantes: <strong class="text-slate-200">Eduardo (Nº 10)</strong> • <strong class="text-slate-200">Vinicius (Nº 34)</strong> • <strong class="text-slate-200">Rafael (Nº 29)</strong>
+                </p>
+            </div>
+            <div class="flex items-center gap-4 text-xs text-slate-400">
+                <span>Ondulatória • Isolamento Acústico • Saúde Auditiva</span>
+                <a href="#inicio" class="px-3.5 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-sky-400 border border-slate-800 transition">
+                    Topo <i class="fa-solid fa-arrow-up ml-1"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT INTERATIVO -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            /* =========================================================================
+               1. MENU MOBILE & ANIMAÇÕES DE REVELAÇÃO AO ROLAR
+               ========================================================================= */
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Fecha menu mobile ao clicar em qualquer link
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+            });
+
+            // IntersectionObserver para animações suaves ao rolar
+            const revealElements = document.querySelectorAll('.reveal');
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            revealElements.forEach(el => revealObserver.observe(el));
+
+            /* =========================================================================
+               2. CANVAS HERO: ONDAS SONORAS DE FUNDO
+               ========================================================================= */
+            const heroCanvas = document.getElementById('hero-wave-canvas');
+            const heroCtx = heroCanvas.getContext('2d');
+            let heroPhase = 0;
+
+            function resizeHeroCanvas() {
+                heroCanvas.width = heroCanvas.parentElement.clientWidth;
+                heroCanvas.height = heroCanvas.parentElement.clientHeight;
+            }
+            window.addEventListener('resize', resizeHeroCanvas);
+            resizeHeroCanvas();
+
+            function drawHeroWaves() {
+                heroCtx.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
+                const w = heroCanvas.width;
+                const h = heroCanvas.height;
+                const waves = [
+                    { amp: 45, freq: 0.008, speed: 0.02, color: 'rgba(56, 189, 248, 0.35)' },
+                    { amp: 30, freq: 0.014, speed: 0.03, color: 'rgba(129, 140, 248, 0.25)' },
+                    { amp: 60, freq: 0.005, speed: 0.015, color: 'rgba(14, 165, 233, 0.2)' }
+                ];
+
+                waves.forEach((wave, idx) => {
+                    heroCtx.beginPath();
+                    heroCtx.strokeStyle = wave.color;
+                    heroCtx.lineWidth = 2;
+                    for (let x = 0; x <= w; x += 4) {
+                        const y = (h * 0.55) + Math.sin(x * wave.freq + heroPhase * (idx + 1) * 0.6) * wave.amp;
+                        if (x === 0) heroCtx.moveTo(x, y);
+                        else heroCtx.lineTo(x, y);
+                    }
+                    heroCtx.stroke();
+                });
+
+                heroPhase += 0.03;
+                requestAnimationFrame(drawHeroWaves);
+            }
+            drawHeroWaves();
+
+            /* =========================================================================
+               3. SIMULADOR INTERATIVO DE ONDA SONORA (CANVAS + WEB AUDIO API)
+               ========================================================================= */
+            const simCanvas = document.getElementById('wave-sim-canvas');
+            const simCtx = simCanvas.getContext('2d');
+            const mediumSelect = document.getElementById('medium-select');
+            const freqSlider = document.getElementById('freq-slider');
+            const ampSlider = document.getElementById('amp-slider');
+
+            const freqValDisplay = document.getElementById('freq-val');
+            const ampValDisplay = document.getElementById('amp-val');
+            const simSpeedDisplay = document.getElementById('sim-speed');
+            const simLambdaDisplay = document.getElementById('sim-lambda');
+            const simToneTag = document.getElementById('sim-tone-tag');
+
+            let simPhase = 0;
+            let audioCtx = null;
+            let oscillator = null;
+            let gainNode = null;
+            let isPlayingAudio = false;
+
+            const toggleAudioBtn = document.getElementById('toggle-audio-btn');
+            const audioIcon = document.getElementById('audio-icon');
+            const audioLabel = document.getElementById('audio-label');
+
+            function resizeSimCanvas() {
+                simCanvas.width = simCanvas.parentElement.clientWidth;
+                simCanvas.height = simCanvas.parentElement.clientHeight;
+            }
+            window.addEventListener('resize', resizeSimCanvas);
+            resizeSimCanvas();
+
+            function updateSimulationValues() {
+                const v = parseFloat(mediumSelect.value);
+                const f = parseFloat(freqSlider.value);
+                const amp = parseFloat(ampSlider.value);
+                const lambda = v / f;
+
+                freqValDisplay.textContent = `${f} Hz`;
+                ampValDisplay.textContent = `${amp}%`;
+                simSpeedDisplay.textContent = `${v.toLocaleString('pt-BR')} m/s`;
+                simLambdaDisplay.textContent = `${lambda.toFixed(3).replace('.', ',')} m`;
+
+                if (f < 250) simToneTag.textContent = 'Som Grave (Baixa Frequência)';
+                else if (f <= 900) simToneTag.textContent = 'Som Médio';
+                else simToneTag.textContent = 'Som Agudo (Alta Frequência)';
+
+                if (isPlayingAudio && oscillator && gainNode) {
+                    oscillator.frequency.setValueAtTime(f, audioCtx.currentTime);
+                    gainNode.gain.setValueAtTime((amp / 100) * 0.15, audioCtx.currentTime);
+                }
+            }
+
+            mediumSelect.addEventListener('change', updateSimulationValues);
+            freqSlider.addEventListener('input', updateSimulationValues);
+            ampSlider.addEventListener('input', updateSimulationValues);
+            updateSimulationValues();
+
+            // Áudio sintetizado seguro (volume limitado a 15% para proteção auditiva)
+            toggleAudioBtn.addEventListener('click', () => {
+                try {
+                    if (!isPlayingAudio) {
+                        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                        if (!audioCtx) audioCtx = new AudioContextClass();
+                        if (audioCtx.state === 'suspended') audioCtx.resume();
+
+                        oscillator = audioCtx.createOscillator();
+                        gainNode = audioCtx.createGain();
+                        oscillator.type = 'sine';
+                        oscillator.frequency.setValueAtTime(parseFloat(freqSlider.value), audioCtx.currentTime);
+                        gainNode.gain.setValueAtTime((parseFloat(ampSlider.value) / 100) * 0.15, audioCtx.currentTime);
+
+                        oscillator.connect(gainNode);
+                        gainNode.connect(audioCtx.destination);
+                        oscillator.start();
+
+                        isPlayingAudio = true;
+                        audioIcon.className = 'fa-solid fa-volume-high text-emerald-400';
+                        audioLabel.textContent = 'Pausar Som';
+                        toggleAudioBtn.classList.add('border-emerald-500/60');
+                    } else {
+                        if (oscillator) {
+                            oscillator.stop();
+                            oscillator.disconnect();
+                        }
+                        isPlayingAudio = false;
+                        audioIcon.className = 'fa-solid fa-volume-xmark';
+                        audioLabel.textContent = 'Ouvir Frequência (Áudio)';
+                        toggleAudioBtn.classList.remove('border-emerald-500/60');
+                    }
+                } catch (err) {
+                    console.error('Erro ao iniciar áudio:', err);
+                }
+            });
+
+            function drawWaveSimulator() {
+                const w = simCanvas.width;
+                const h = simCanvas.height;
+                simCtx.clearRect(0, 0, w, h);
+
+                const f = parseFloat(freqSlider.value);
+                const ampPercent = parseFloat(ampSlider.value);
+                const v = parseFloat(mediumSelect.value);
+
+                // Eixo central
+                const waveCenterY = h * 0.38;
+                simCtx.strokeStyle = 'rgba(148, 163, 184, 0.2)';
+                simCtx.lineWidth = 1;
+                simCtx.beginPath();
+                simCtx.moveTo(0, waveCenterY);
+                simCtx.lineTo(w, waveCenterY);
+                simCtx.stroke();
+
+                // Escala visual da frequência e amplitude
+                const visualFreq = (f / 200) * 0.035;
+                const visualAmp = (ampPercent / 100) * (h * 0.26);
+                const speedFactor = (v / 343) * 0.04;
+
+                // Desenho da Onda Senoidal
+                simCtx.beginPath();
+                simCtx.strokeStyle = '#38bdf8';
+                simCtx.lineWidth = 3;
+                for (let x = 0; x <= w; x += 2) {
+                    const y = waveCenterY - Math.sin(x * visualFreq - simPhase) * visualAmp;
+                    if (x === 0) simCtx.moveTo(x, y);
+                    else simCtx.lineTo(x, y);
+                }
+                simCtx.stroke();
+
+                // Desenho das Partículas Longitudinais (Compressão e Rarefação) na parte inferior
+                const particleBaseY = h * 0.80;
+                const cols = 42;
+                const spacing = w / cols;
+
+                for (let i = 0; i <= cols; i++) {
+                    const baseX = i * spacing;
+                    const displacement = Math.cos(baseX * visualFreq - simPhase) * (visualAmp * 0.28);
+                    const px = baseX + displacement;
+
+                    // Cor indica densidade de compressão
+                    const density = Math.sin(baseX * visualFreq - simPhase);
+                    simCtx.fillStyle = density > 0 ? 'rgba(56, 189, 248, 0.85)' : 'rgba(129, 140, 248, 0.45)';
+
+                    for (let row = -1; row <= 1; row++) {
+                        simCtx.beginPath();
+                        simCtx.arc(px, particleBaseY + row * 12, 3, 0, Math.PI * 2);
+                        simCtx.fill();
+                    }
+                }
+
+                simPhase += Math.min(speedFactor, 0.25);
+                requestAnimationFrame(drawWaveSimulator);
+            }
+            drawWaveSimulator();
+
+            /* =========================================================================
+               4. CALCULADORA DE DECIBÉIS E COMPRIMENTO DE ONDA
+               ========================================================================= */
+            const calcExpInput = document.getElementById('calc-intensity-exp');
+            const calcDbResult = document.getElementById('calc-db-result');
+            const calcVInput = document.getElementById('calc-v');
+            const calcFInput = document.getElementById('calc-f');
+            const calcLambdaResult = document.getElementById('calc-lambda-result');
+
+            function updateCalculators() {
+                // β = 10 * log10(10^x / 10^-12) = 10 * (x + 12)
+                const exp = parseFloat(calcExpInput.value);
+                if (!isNaN(exp)) {
+                    const db = 10 * (exp + 12);
+                    calcDbResult.textContent = `${db.toFixed(1).replace('.', ',')} dB`;
+                }
+
+                // λ = v / f
+                const v = parseFloat(calcVInput.value);
+                const f = parseFloat(calcFInput.value);
+                if (!isNaN(v) && !isNaN(f) && f > 0) {
+                    const lambda = v / f;
+                    calcLambdaResult.textContent = `${lambda.toFixed(3).replace('.', ',')} m`;
+                }
+            }
+
+            calcExpInput.addEventListener('input', updateCalculators);
+            calcVInput.addEventListener('input', updateCalculators);
+            calcFInput.addEventListener('input', updateCalculators);
+
+            /* =========================================================================
+               5. TERMÔMETRO / MEDIDOR INTERATIVO DE DECIBÉIS (OMS + NR-15)
+               ========================================================================= */
+            const dbSlider = document.getElementById('db-slider');
+            const dbMeterValue = document.getElementById('db-meter-value');
+            const dbMeterExample = document.getElementById('db-meter-example');
+            const dbStatusBadge = document.getElementById('db-status-badge');
+            const omsDiagnosis = document.getElementById('oms-diagnosis');
+            const nr15Diagnosis = document.getElementById('nr15-diagnosis');
+
+            function getDbExample(db) {
+                if (db <= 40) return 'Biblioteca silenciosa / Quarto à noite';
+                if (db <= 55) return 'Conversa tranquila / Escritório calmo';
+                if (db <= 70) return 'Chuva moderada / Aspirador de pó';
+                if (db <= 84) return 'Tráfego urbano intenso / Restaurante cheio';
+                if (db <= 95) return 'Trânsito pesado / Metrô / Motocicleta';
+                if (db <= 110) return 'Show de rock / Fone no volume máximo';
+                if (db < 120) return 'Buzina próxima / Britadeira';
+                return 'Turbina de avião / Explosão (Limiar da dor)';
+            }
+
+            function formatExposureTime(hours) {
+                if (hours >= 1) {
+                    const h = Math.floor(hours);
+                    const m = Math.round((hours - h) * 60);
+                    return m > 0 ? `${h}h ${m}min` : `${h} hora(s)`;
+                } else {
+                    const mins = hours * 60;
+                    if (mins >= 1) return `${Math.round(mins)} minuto(s)`;
+                    return `${Math.max(1, Math.round(mins * 60))} segundo(s)`;
+                }
+            }
+
+            function updateDbMeter() {
+                const db = parseInt(dbSlider.value, 10);
+                dbMeterValue.textContent = `${db} dB`;
+                dbMeterExample.textContent = getDbExample(db);
+
+                // Diagnóstico OMS e Cores
+                if (db <= 55) {
+                    dbMeterValue.className = 'font-mono text-4xl sm:text-5xl font-extrabold text-emerald-400';
+                    dbStatusBadge.className = 'px-4 py-2 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 font-bold text-sm';
+                    dbStatusBadge.textContent = 'Conforto Acústico (OMS)';
+                    omsDiagnosis.textContent = 'Até 50–55 dB: Nível ideal recomendado pela OMS para conforto acústico diurno sem estresse fisiológico.';
+                } else if (db <= 70) {
+                    dbMeterValue.className = 'font-mono text-4xl sm:text-5xl font-extrabold text-sky-400';
+                    dbStatusBadge.className = 'px-4 py-2 rounded-xl bg-sky-500/20 border border-sky-500/40 text-sky-300 font-bold text-sm';
+                    dbStatusBadge.textContent = 'Alerta Moderado / Fadiga';
+                    omsDiagnosis.textContent = 'Entre 56 e 70 dB: Pode causar irritabilidade, dificuldade de concentração e liberação leve de cortisol.';
+                } else if (db < 85) {
+                    dbMeterValue.className = 'font-mono text-4xl sm:text-5xl font-extrabold text-amber-400';
+                    dbStatusBadge.className = 'px-4 py-2 rounded-xl bg-amber-500/20 border border-amber-500/40 text-amber-300 font-bold text-sm';
+                    dbStatusBadge.textContent = 'Risco Cardiovascular (OMS)';
+                    omsDiagnosis.textContent = 'Acima de 70 dB: Risco continuado de alteração na saúde física, hipertensão e estresse crônico.';
+                } else if (db < 120) {
+                    dbMeterValue.className = 'font-mono text-4xl sm:text-5xl font-extrabold text-orange-500';
+                    dbStatusBadge.className = 'px-4 py-2 rounded-xl bg-orange-500/20 border border-orange-500/40 text-orange-300 font-bold text-sm';
+                    dbStatusBadge.textContent = 'Zona de Perigo Auditivo (PAIR)';
+                    omsDiagnosis.textContent = 'Acima de 85 dB: Início da zona de perigo para dano auditivo definitivo (destruição das células ciliadas da cóclea).';
+                } else {
+                    dbMeterValue.className = 'font-mono text-4xl sm:text-5xl font-extrabold text-rose-500 animate-pulse';
+                    dbStatusBadge.className = 'px-4 py-2 rounded-xl bg-rose-500/25 border border-rose-500/50 text-rose-300 font-bold text-sm';
+                    dbStatusBadge.textContent = 'PERIGO EXTREMO • Limiar da Dor';
+                    omsDiagnosis.textContent = '120 a 140 dB: Limiar da dor física. Risco de trauma acústico imediato e ruptura timpânica.';
+                }
+
+                // Cálculo dinâmico NR-15: T = 8 / 2^((dB - 85) / 5)
+                if (db < 85) {
+                    nr15Diagnosis.innerHTML = 'Abaixo de 85 dB: Dentro do limite de tolerância ocupacional da NR-15 para jornada de <strong>8 horas diárias</strong> sem necessidade obrigatória de EPI.';
+                } else if (db <= 115) {
+                    const maxHours = 8 / Math.pow(2, (db - 85) / 5);
+                    nr15Diagnosis.innerHTML = `A <strong>${db} dB</strong>, o tempo máximo permitido sem proteção auditiva pela NR-15 é de <strong class="text-amber-300">${formatExposureTime(maxHours)}</strong>.`;
+                } else {
+                    nr15Diagnosis.innerHTML = '<strong class="text-rose-400">Exposição Proibida sem Proteção (NR-15):</strong> Acima de 115 dB não é permitida exposição sem proteção adequada, sob risco de dano grave e imediato.';
+                }
+            }
+
+            dbSlider.addEventListener('input', updateDbMeter);
+            updateDbMeter();
+
+            /* =========================================================================
+               6. DEMONSTRAÇÃO INTERATIVA DE CANCELAMENTO ATIVO DE RUÍDO (ANC)
+               ========================================================================= */
+            const ancCanvas = document.getElementById('anc-canvas');
+            const ancCtx = ancCanvas.getContext('2d');
+            const toggleAncBtn = document.getElementById('toggle-anc-btn');
+            const ancStatusText = document.getElementById('anc-status-text');
+
+            let ancActive = true;
+            let ancPhase = 0;
+
+            function resizeAncCanvas() {
+                ancCanvas.width = ancCanvas.parentElement.clientWidth;
+                ancCanvas.height = ancCanvas.parentElement.clientHeight;
+            }
+            window.addEventListener('resize', resizeAncCanvas);
+            resizeAncCanvas();
+
+            toggleAncBtn.addEventListener('click', () => {
+                ancActive = !ancActive;
+                if (ancActive) {
+                    ancStatusText.textContent = 'ATIVADO (180°)';
+                    ancStatusText.className = 'font-mono text-xs font-bold px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-400';
+                } else {
+                    ancStatusText.textContent = 'DESATIVADO';
+                    ancStatusText.className = 'font-mono text-xs font-bold px-2.5 py-1 rounded bg-rose-500/20 text-rose-400';
+                }
+            });
+
+            function drawAncSimulation() {
+                const w = ancCanvas.width;
+                const h = ancCanvas.height;
+                ancCtx.clearRect(0, 0, w, h);
+
+                const midY = h / 2;
+                const amp = h * 0.34;
+                const freq = 0.025;
+
+                // Linha de referência zero
+                ancCtx.strokeStyle = 'rgba(148, 163, 184, 0.15)';
+                ancCtx.lineWidth = 1;
+                ancCtx.beginPath();
+                ancCtx.moveTo(0, midY);
+                ancCtx.lineTo(w, midY);
+                ancCtx.stroke();
+
+                // 1. Onda de Ruído Ambiente (Vermelha/Rosa)
+                ancCtx.beginPath();
+                ancCtx.strokeStyle = 'rgba(251, 113, 133, 0.85)';
+                ancCtx.lineWidth = 2.5;
+                for (let x = 0; x <= w; x += 3) {
+                    const noiseY = Math.sin(x * freq + ancPhase) * amp * 0.75 + Math.sin(x * freq * 2.1 + ancPhase) * amp * 0.25;
+                    const y = midY - noiseY;
+                    if (x === 0) ancCtx.moveTo(x, y);
+                    else ancCtx.lineTo(x, y);
+                }
+                ancCtx.stroke();
+
+                // 2. Onda Anti-Ruído (Ciano - Fase invertida 180°)
+                if (ancActive) {
+                    ancCtx.beginPath();
+                    ancCtx.strokeStyle = 'rgba(56, 189, 248, 0.85)';
+                    ancCtx.setLineDash([6, 4]);
+                    ancCtx.lineWidth = 2;
+                    for (let x = 0; x <= w; x += 3) {
+                        const noiseY = Math.sin(x * freq + ancPhase) * amp * 0.75 + Math.sin(x * freq * 2.1 + ancPhase) * amp * 0.25;
+                        const antiY = midY + noiseY; // Sinal invertido (180°)
+                        if (x === 0) ancCtx.moveTo(x, antiY);
+                        else ancCtx.lineTo(x, antiY);
+                    }
+                    ancCtx.stroke();
+                    ancCtx.setLineDash([]);
+                }
+
+                // 3. Onda Resultante (Verde Esmeralda)
+                ancCtx.beginPath();
+                ancCtx.strokeStyle = '#34d399';
+                ancCtx.lineWidth = 3.5;
+                for (let x = 0; x <= w; x += 3) {
+                    const noiseY = Math.sin(x * freq + ancPhase) * amp * 0.75 + Math.sin(x * freq * 2.1 + ancPhase) * amp * 0.25;
+                    const resultY = ancActive ? midY : (midY - noiseY);
+                    if (x === 0) ancCtx.moveTo(x, resultY);
+                    else ancCtx.lineTo(x, resultY);
+                }
+                ancCtx.stroke();
+
+                ancPhase += 0.045;
+                requestAnimationFrame(drawAncSimulation);
+            }
+            drawAncSimulation();
+        });
+    </script>
+</body>
+</html>
